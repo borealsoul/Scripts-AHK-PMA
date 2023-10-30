@@ -1,4 +1,27 @@
+; Aurora Moreira, data original 09/03/2023
 #SingleInstance
+
+; Alt + Clique
+; 	Selecionar múltiplas dívidas.
+; Alt + Shift + Clique
+; 	Selecionar múltiplas dívidas, até o fim da tela.
+; Alt + Shift + C
+; 	Seleção de parcelas para impressão.
+; Ctrl + Shift + V
+; 	Colar dentro do Terminal
+; F8
+; 	Digitação de Guias
+; Shift + F8
+;	Digitação de Guias, com impressão de carnê e termo.
+; Shift + F5
+; 	F5 já com pesquisa do nome.
+; F6
+;	Extração de CDA.
+; F4
+;	Cancelamento de parcelamento por inadimplência.
+
+; Alt + 1 no Word
+;	Exportar em PDF para a pasta da data de hoje.
 
 #HotIf WinActive("Terminal remoto — Mozilla Firefox") or WinActive("Terminal remoto - Google Chrome")
 ; Se estiver no Terminal Remoto da Sonner
@@ -98,7 +121,7 @@ WHEELUP::Send "{UP}"
 }
 
 ; Extração de CDA
-F6:: {		; Ctrl + Shift + C
+F6:: {
 	Sleep 150
 	Send "!V"
 	Sleep 20
