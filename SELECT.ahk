@@ -1,12 +1,17 @@
 #SingleInstance
 
 #HotIf WinActive("Terminal remoto — Mozilla Firefox") or WinActive("Terminal remoto - Google Chrome")
-!LButton::
-!+LButton:: {
+; Se estiver no Terminal Remoto da Sonner
+
+; Selecionar várias dívidas de uma vez.
+!LButton::		; Alt + Clique
+!+LButton:: {	; Alt + Shift + Clique
 	shift_pressionado := False
 	if GetKeyState("Shift")
 		shift_pressionado := True
 
+	; TODO: #1 Deveria ser possível calcular a distância necessária entre os blocos
+	; pela resolução da tela. Até agora só testei no computador que uso (1366) e no da Camila (1920)
 	switch A_ScreenHeight {
 		case 768: distancia_mouse := 15.36
 		case 1080: distancia_mouse := 18.3
@@ -32,31 +37,38 @@
 		Send "{PgDn}"
 }
 
-+!C:: {	; -----------------------------SELEÇÃO DE CARNÊS PARA IMPRESSAO----------------------------Alt - Shift - C
+; Seleção de parcelas para impressão.
++!C:: {		; Alt + Shift + C
+	; TODO #2 Não é preciso a diferenciação se tem entrada ou não.
 	entrada_parcelamento := MsgBox("Este parcelamento possui uma entrada?", , "YesNoCancel Icon?")
 		if entrada_parcelamento != "Cancel" {
-			switch entrada_parcelamento {
-				case "Yes":	qnt_parcelas := 14 - A_MM			; qnt_parcelas é igual a 14 - o mês atual
-				case "No":	qnt_parcelas := 13 - A_MM
-			}
-			Send "+{TAB 2}{SPACE 2}{TAB}"		; Aperta Shift .. TAB x2 .. Espaço x2 .. TAB
+			qnt_parcelas := 14 - A_MM
+			if entrada_parcelamento == "No"
+				qnt_parcelas--
+
+			Send "+{TAB 2}{SPACE 2}{TAB}"
 			Sleep 200
-			loop qnt_parcelas					; Loop pela qnt_parcelas
-				Send "{DOWN}{SPACE}"			; Aperte seta para baixo .. Espaço 
+
+			loop qnt_parcelas
+				Send "{DOWN}{SPACE}"
 			Sleep 200
+
+			; Caixa de mensagem para conferir se o parcelamento é para o próprio mês ou para o próximo.
 			venc_parcelamento := MsgBox("O parcelamento é para o mês vigente? (" A_MMMM ")", , "YesNo Icon?")
-												; Caixa de mensagem para conferir se o parcelamento é para o próprio mês ou para o próximo.
-			switch venc_parcelamento {
-				case "No": Send "{SPACE}"
-			}
-			Send "!A{ENTER}"					; Salva e fecha.
+			
+			if venc_parcelamento == "No"
+				Send "{SPACE}"
+
+			Send "!A{ENTER}"
 		}
-}	; ---------------------------------------------------------------------------------------------
+}
 
-^+V::Send A_Clipboard	; -------------------------COLAR DENTRO DO SISTEMA-------------------------
+; Colar dentro do terminal
+^+V::Send A_Clipboard	; Ctrl + Shift + V
 
-F8::
-+F8:: {
+; Digitação de Guias
+F8::		; F8
++F8:: {		; Shift + F8
 	shift_pressionado := False
 	if GetKeyState("Shift")
 		shift_pressionado := True
@@ -75,19 +87,18 @@ F8::
 	Send "{TAB 8}"
 }
 
-WHEELDOWN::Send "{DOWN}"	; ---------------RODINHA DO MOUSE PARA SETAS DO TECLADO----------------
-WHEELUP::Send "{UP}"		; ---------------------------------------------------------------------
+; Roda do Mouse como Setas do Teclado
+WHEELDOWN::Send "{DOWN}"
+WHEELUP::Send "{UP}"
 
-+F5:: { 			; ---------------------F5 JÁ COM PESQUISA POR NOME--------------------Shift-F5
+; F5 já com pesquisa por nome
++F5:: {		; Shift + F5
 	Send "{F5}!{T}{F3}"
 	Send "+{TAB 2}{RIGHT}{TAB 2}"
 }
 
-/* F4:: {
-	Send "!{D}{RIGHT}"
-} */
-
-F6::	{	; ----------------------------EXTRAÇÃO DE CDA-----------------------------Ctrl - Shift - C
+; Extração de CDA
+F6:: {		; Ctrl + Shift + C
 	Sleep 150
 	Send "!V"
 	Sleep 20
@@ -96,7 +107,8 @@ F6::	{	; ----------------------------EXTRAÇÃO DE CDA--------------------------
 	Send "{DOWN 8}{ENTER}"
 }
 
-F4:: {		; ---------------------------CANCELAMENTO DE PARCELAMENTO---------------------------------Ctrl - Alt - C
+; Cancelamento de Parcelamento
+F4:: {
 cancelamento_autorizado := MsgBox("Esse parcelamento será cancelado por inadimplência. Gostaria de prosseguir?", , "YesNo Icon!")
 	if (cancelamento_autorizado = "Yes") {
 		Sleep 100
@@ -111,18 +123,19 @@ cancelamento_autorizado := MsgBox("Esse parcelamento será cancelado por inadimp
 	}	
 }
 
-
-/* #HotIf WinActive("ahk_exe WINWORD.EXE")
-Alt::Return */
-
+; No Word.
+#HotIf WinActive("ahk_exe WINWORD.EXE")
+Alt::Return
+; No Word, apertando Alt.
 #HotIf GetKeyState("Alt") and WinActive("ahk_exe WINWORD.EXE")
-!1:: {
+!1:: {	; Alt + 1
 	A_Clipboard := ""
 	Send "^{c}"
 	ClipWait
 	A_Clipboard := StrUpper(A_Clipboard)
 	Send "!{1}"
 	Sleep 300
+	; TODO #3 - É preciso tornar o caminho de pasta dinânico também.
 	Send "{F4}^{A}{BACKSPACE}D:\PREFEITURA\Documents\ARQUIVOS\10 - Outubro\" A_YYYY "-" A_MM "-" A_DD "{ENTER}{TAB}"
 	Sleep 200
 	Send "!{N}" A_Clipboard "{ENTER}"
