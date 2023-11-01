@@ -1,4 +1,12 @@
-; Aurora Moreira, data original 09/03/2023
+/************************************************************************
+ * @description SCRIPTS QUE USO NO TRABALHO
+ * @file SELECT.ahk
+ * @author Aurora Júlia Moreira 
+ * @since 09/03/2023
+ * @date 2023/11/01
+ * @version 0.1.5
+ ***********************************************************************/
+
 #SingleInstance
 
 ; Alt + Clique
