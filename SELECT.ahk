@@ -134,11 +134,11 @@ F6:: {
 F4:: {
 cancelamento_autorizado := MsgBox("Esse parcelamento será cancelado por inadimplência. Gostaria de prosseguir?", , "YesNo Icon!")
 	if (cancelamento_autorizado = "Yes") {
-		Sleep 100
+		Sleep 50
 		Click "Right"	
+		Sleep 50
+		Click 10, 65, "RELATIVE" 
 		Sleep 100
-		Send "{DOWN 4}"
-		Sleep 500
 		Send "{ENTER}"
 		Send "+{TAB}"
 		Send "Inadimplencia."
