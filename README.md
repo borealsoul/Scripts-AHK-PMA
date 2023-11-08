@@ -2,7 +2,9 @@
 
 O script principal que uso para atalhos extras na Prefeitura de Andradas, muitos feitos para funcionar dentro do sistema da [Sonner](http://www.sonner.com.br/)
 
-## No Terminal Remoto
+## SELECT.ahk
+
+### No Terminal Remoto
 
 | Atalho | Descrição |
 | --- | --- |
@@ -16,8 +18,12 @@ O script principal que uso para atalhos extras na Prefeitura de Andradas, muitos
 | <kbd>F6</kbd> | Extração de CDA. |
 | <kbd>F4</kbd> | Cancelamento de parcelamento por inadimplência. |
 
-## No Word
+### No Word
 
 | Atalho | Descrição |
 | --- | --- |
-| <kbd>Alt</kbd> + <kbd>1</kbd> | Exportar em PDF para a pasta com a data de hoje. |
+| <kbd>Alt</kbd> + <kbd>1</kbd> | Exportar em PDF para a pasta com a data de hoje. 
+
+## LISTADIGGUIAS.ahk
+
+Vai passando pelas guias na array automaticamente, para anotar os honorários desejados
