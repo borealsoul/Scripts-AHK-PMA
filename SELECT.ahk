@@ -139,9 +139,11 @@ F6:: {
 }
 
 ; Cancelamento de Parcelamento
+; TODO: #5 Adicionar um 4o botão para cancelar em caso de simulação de parcelamento (ou torná-lo outro tipo de mensagem?)
 F4:: {
-cancelamento_autorizado := MsgBox("Esse parcelamento será cancelado por inadimplência. Gostaria de prosseguir?", , "YesNo Icon!")
-	if (cancelamento_autorizado = "Yes") {
+	SetTimer ChangeButtonNames, 40
+	cancelamento_autorizado := MsgBox("Gostaria de cancelar o parcelamento selecionado por qual motivo?", "Cancelamento de Parcelamento", "Y/N/C Icon!")
+	if (cancelamento_autorizado != "Cancel") {
 		Sleep 50
 		Click "Right"	
 		Sleep 50
@@ -149,9 +151,21 @@ cancelamento_autorizado := MsgBox("Esse parcelamento será cancelado por inadimp
 		Sleep 100
 		Send "{ENTER}"
 		Send "+{TAB}"
-		Send "Inadimplencia."
+		if (cancelamento_autorizado = "Yes")
+			Send "Inadimplencia."
+		else
+			Send "Para baixa de SISBAJUD."
 		Send "!{I}"
 	}	
+
+	ChangeButtonNames() {
+		if !WinExist("Cancelamento de Parcelamento")
+			return
+		SetTimer , 0
+		WinActivate
+		ControlSetText "&Inadimp.", "Button1"
+		ControlSetText "&SISBAJUD", "Button2"
+	}
 }
 
 ; No Word.
