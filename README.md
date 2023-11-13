@@ -22,7 +22,7 @@ O script principal que uso para atalhos extras na Prefeitura de Andradas, muitos
 
 | Atalho | Descrição |
 | --- | --- |
-| <kbd>Alt</kbd> + <kbd>1</kbd> | Exportar em PDF para a pasta com a data de hoje. 
+| <kbd>Alt</kbd> + <kbd>1</kbd> | Exportar em PDF para a pasta com a data de hoje.
 
 ## LISTADIGGUIAS.ahk
 
